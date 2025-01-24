@@ -1,5 +1,4 @@
-{% extends 'base.html' %} 
-{% block title %} Welcome to HeartPsalm {% endblock %}
+{% extends 'base.html' %} {% block title %} Welcome to HeartPsalm {% endblock %}
 {% block content %}
 <div
   class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-black text-white"
@@ -14,7 +13,7 @@
       height="150"
     />
     <h1 class="display-4 font-weight-bold text-purple">HeartPsalm</h1>
-    
+
     <!-- Describe Your Feelings Section -->
     <p class="lead font-weight-normal">
       Describe your emotions or how you're feeling today.
@@ -23,7 +22,7 @@
       For example:
       <em>"I'm feeling sad," "I'm so happy," or "I'm ecstatic."</em>
     </p>
-    
+
     <!-- Example Assistant Response -->
     <div
       class="assistant-response mt-4 p-3 text-left bg-dark text-white rounded"
@@ -44,28 +43,28 @@
 
     <hr class="my-4" style="border-color: #6a0dad" />
 
-	<!-- Example Images -->
-	<div class="mt-4">
-	  <!-- First Image -->
-	  <div class="mb-4">
-		<img
-		  class="img-fluid"
-		  src="https://raw.githubusercontent.com/MmaGod1/alx-backend-portfolio-project/refs/heads/main/HeartPsalm/heartpsalm/example1.jpg"
-		  alt="Example Image 1"
-		  style="width: 80%; max-width: 600px; margin: 0 auto; display: block;"
-		/>
-	  </div>
-	  
-	  <!-- Second Image -->
-	  <div>
-		<img
-		  class="img-fluid"
-		  src="https://raw.githubusercontent.com/MmaGod1/alx-backend-portfolio-project/refs/heads/main/HeartPsalm/heartpsalm/example2.jpg"
-		  alt="Example Image 2"
-		  style="width: 80%; max-width: 600px; margin: 0 auto; display: block;"
-		/>
-	  </div>
-	</div>
+    <!-- Example Images -->
+    <div class="mt-4">
+      <!-- First Image -->
+      <div class="mb-4">
+        <img
+          class="img-fluid"
+          src="https://raw.githubusercontent.com/MmaGod1/alx-backend-portfolio-project/refs/heads/main/HeartPsalm/heartpsalm/example1.jpg"
+          alt="Example Image 1"
+          style="width: 80%; max-width: 600px; margin: 0 auto; display: block"
+        />
+      </div>
+
+      <!-- Second Image -->
+      <div>
+        <img
+          class="img-fluid"
+          src="https://raw.githubusercontent.com/MmaGod1/alx-backend-portfolio-project/refs/heads/main/HeartPsalm/heartpsalm/example2.jpg"
+          alt="Example Image 2"
+          style="width: 80%; max-width: 600px; margin: 0 auto; display: block"
+        />
+      </div>
+    </div>
     <!-- Second 'Get Started' Button -->
     <a class="btn btn-lg btn-purple mt-4" href="{{ url_for('chat_page') }}"
       >Get Started</a
