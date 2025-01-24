@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% block title %} Welcome to HeartPsalm {% endblock %}
+{% extends 'base.html' %} 
+{% block title %} Welcome to HeartPsalm {% endblock %}
+
 {% block content %}
 <div
   class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-black text-white"
@@ -13,6 +15,14 @@
       height="150"
     />
     <h1 class="display-4 font-weight-bold text-purple">HeartPsalm</h1>
+
+    <!-- App Description -->
+    <p class="lead font-weight-normal mt-3">
+      HeartPsalm is your personalized emotional companion, combining sentiment
+      analysis and faith to uplift your spirit. Share how you're feeling, and
+      HeartPsalm will recommend a comforting Bible verse and an uplifting song
+      tailored to your emotional state.
+    </p>
 
     <!-- Describe Your Feelings Section -->
     <p class="lead font-weight-normal">
@@ -65,6 +75,7 @@
         />
       </div>
     </div>
+
     <!-- Second 'Get Started' Button -->
     <a class="btn btn-lg btn-purple mt-4" href="{{ url_for('chat_page') }}"
       >Get Started</a
