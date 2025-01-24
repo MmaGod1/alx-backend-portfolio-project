@@ -95,54 +95,133 @@
     <span class="line bottom"></span>
   </button>
 </div>
+<style>
+  @keyframes blink-cursor {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 
+  .typing-cursor::after {
+    content: "|";
+    animation: blink-cursor 0.7s infinite;
+  }
+</style>
 <script>
+  function formatMessage(text) {
+    // Use bold formatting for text surrounded by **
+    text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    // Remove single * character
+    text = text.replace(/\*/g, "");
+    // Replace newlines with paragraph tags
+    text = text
+      .split("\n")
+      .map((line) => `<p>${line}</p>`)
+      .join("");
+    return text;
+  }
+
+  async function typeWriter(element, text, speed = 30) {
+    element.innerHTML = "";
+    element.classList.add("typing-cursor");
+    for (let i = 0; i < text.length; i++) {
+      element.innerHTML = text.slice(0, i + 1);
+      await new Promise((resolve) => setTimeout(resolve, speed));
+    }
+    element.classList.remove("typing-cursor");
+  }
+
   document
     .getElementById("chat-form")
     .addEventListener("submit", async function (e) {
-      e.preventDefault(); // Prevent page reload
+      e.preventDefault();
 
       const userFeeling = document.getElementById("user_feeling").value.trim();
-      if (!userFeeling) return; // Don't proceed if input is empty
+      if (!userFeeling) return;
 
-      // Send message to the server via AJAX
-      const response = await fetch("/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({ user_feeling: userFeeling }),
-      });
+      // Clear input field immediately after submission
+      document.getElementById("user_feeling").value = "";
 
-      if (response.ok) {
-        const data = await response.json();
+      try {
+        const response = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ user_feeling: userFeeling }),
+        });
 
-        // Update the chat area dynamically
+        if (!response.ok) {
+          throw new Error(`Failed to send message. Status: ${response.status}`);
+        }
+
+        const responseText = await response.text();
+        const data = JSON.parse(responseText);
+
         const chatBox = document.getElementById("chat-box");
+
+        const formattedUserMessage = formatMessage(userFeeling);
+        const formattedAssistantResponse = formatMessage(
+          data.assistant_response,
+        );
+
         const userMessage = document.createElement("div");
         userMessage.className = "d-flex justify-content-end mb-2";
         userMessage.innerHTML = `
-                <div class="chat-box-user">
-                    <p><strong>You:</strong> ${userFeeling}</p>
-                </div>
-            `;
+            <div class="chat-box-user">
+                <p><strong>You:</strong> ${formattedUserMessage}</p>
+            </div>
+        `;
         chatBox.appendChild(userMessage);
 
+        // assistant message placeholder
         const assistantMessage = document.createElement("div");
         assistantMessage.className = "d-flex justify-content-start mb-2";
         assistantMessage.innerHTML = `
-                <div class="chat-box-assistant">
-                    <p><strong>HeartPsalm:</strong> ${data.assistant_response}</p>
-                </div>
-            `;
+            <div class="chat-box-assistant">
+                <p><strong>HeartPsalm:</strong> <span id="typing-effect"></span></p>
+            </div>
+        `;
         chatBox.appendChild(assistantMessage);
 
-        // Clear the input field and scroll to the bottom
-        document.getElementById("user_feeling").value = "";
+        // Disable the send button while typing
+        const sendButton = document.getElementById("send-button");
+        sendButton.disabled = true;
+
+        // Add typing effect
+        const typingEffectElement =
+          assistantMessage.querySelector("#typing-effect");
+        await typeWriter(typingEffectElement, formattedAssistantResponse);
+
+        // Enable the send button after typing
+        sendButton.disabled = false;
+
+        // Scroll to the bottom of the chat box
         chatBox.scrollTop = chatBox.scrollHeight;
-      } else {
-        console.error("Failed to send message");
+
+        // Subsequent updates i.e update sidebar with news modified chat
+        // await updateSidebar();
+      } catch (error) {
+        console.error("Error:", error);
+        alert(`Error: ${error.message}`);
       }
     });
+
+  // Possible Sidebar update function
+  async function updateSidebar() {
+    try {
+      const response = await fetch("/sidebar-update");
+      if (response.ok) {
+        const navbarHtml = await response.text();
+        document.getElementById("sidebar").innerHTML = navbarHtml;
+      }
+    } catch (error) {
+      console.error("sidebar update failed:", error);
+    }
+  }
 </script>
 {% endblock %}
