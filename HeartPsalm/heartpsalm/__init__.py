@@ -16,7 +16,7 @@ load_dotenv()
 app = Flask(__name__)
 app.app_context().push()
 
-# Access your keys securely from the environment
+# Access keys securely from the environment
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
