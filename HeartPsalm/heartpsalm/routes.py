@@ -4,7 +4,7 @@ from heartpsalm import app, db, cache
 from heartpsalm.models import User, ChatMessage, ChatConfiguration
 from heartpsalm.forms import RegisterForm, LoginForm
 from flask_login import login_user, logout_user, login_required, current_user
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import (
         render_template,
         request, redirect,
@@ -195,7 +195,7 @@ def chat_page():
                 user_id=current_user.id,
                 role='user',
                 content=user_input,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 session_id=session['session_id']
                 )
         db.session.add(user_message)
@@ -243,7 +243,7 @@ def chat_page():
                 user_id=current_user.id,
                 role='assistant',
                 content=assistant_response,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 session_id=session['session_id']
                 )
         db.session.add(assistant_message)
