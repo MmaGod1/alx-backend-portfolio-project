@@ -1,5 +1,9 @@
 from heartpsalm import app, db
 from heartpsalm.models import create_default_config
+import os
+print("Database URI:", os.getenv("SQLALCHEMY_DATABASE_URI"))
+print("Secret Key:", os.getenv("SECRET_KEY"))
+
 
 @app.template_filter('datetime')
 def format_datetime(value):
