@@ -14,7 +14,7 @@ from flask_migrate import Migrate
 load_dotenv()
 
 app = Flask(__name__)
-app.app_context().push()
+#app.app_context().push()
 
 # Access keys securely from the environment
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
