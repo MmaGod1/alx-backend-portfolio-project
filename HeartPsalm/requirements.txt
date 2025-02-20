@@ -28,7 +28,8 @@ google-generativeai==0.8.3
 googleapis-common-protos==1.66.0
 greenlet==3.1.1
 grpcio==1.67.1
-gunicorn
+grpcio-status==1.67.1
+gunicorn==23.0.0
 httplib2==0.22.0
 idna==3.10
 itsdangerous==2.2.0
